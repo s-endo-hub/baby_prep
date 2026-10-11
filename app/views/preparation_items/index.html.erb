@@ -6,14 +6,20 @@
       <h2><%= item.name %></h2>
       <p> カテゴリ： <%= item.baby? ? "赤ちゃん" : "ママ" %> </p>
       <p> 準備状況： <%= item.ready? ? "準備OK" : "これから" %> </p>
-      <% unless item.ready? %>
+      <% if item.ready? %>
+        <%= button_to "これからに戻す",
+        preparation_item_path(item),
+        method: :patch,
+        params: { status: "unprepared" } %>
+      <% else %>
         <%= button_to "準備OKにする",
-            preparation_item_path(item),
-            method: :patch %>
+        preparation_item_path(item),
+        method: :patch,
+        params: { status: "ready" } %>
       <% end %>
     </div>
     <hr>
   <% end %>
 <% else %>
-<p>準備アイテムはまだありません。</p>
+  <p>準備アイテムはまだありません。</p>
 <% end %>
