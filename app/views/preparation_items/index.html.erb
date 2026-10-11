@@ -6,6 +6,11 @@
       <h2><%= item.name %></h2>
       <p> カテゴリ： <%= item.baby? ? "赤ちゃん" : "ママ" %> </p>
       <p> 準備状況： <%= item.ready? ? "準備OK" : "これから" %> </p>
+      <% unless item.ready? %>
+        <%= button_to "準備OKにする",
+            preparation_item_path(item),
+            method: :patch %>
+      <% end %>
     </div>
     <hr>
   <% end %>
