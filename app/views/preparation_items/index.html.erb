@@ -1,5 +1,18 @@
 <h1>出産準備リスト</h1>
 <p>赤ちゃんとママのための準備を進めましょう！</p>
+<hr>
+<h2>準備アイテムを追加</h2>
+<%= form_with model: PreparationItem.new, url: preparation_items_path do |form| %>
+  <div>
+    <%= form.label :name, "アイテム名" %>
+    <%= form.text_field :name, placeholder: "例：ベビーカー" %>
+  </div>
+  <div>
+    <%= form.label :category, "カテゴリ" %>
+    <%= form.select :category, [["赤ちゃん", "baby"], ["ママ", "mother"]] %>
+  </div>
+  <%= form.submit "追加する" %>
+<% end %>
 <% if @preparation_items.any? %>
   <% @preparation_items.each do |item| %>
     <div>
@@ -17,6 +30,10 @@
         method: :patch,
         params: { status: "ready" } %>
       <% end %>
+      <%= button_to "削除する",
+          preparation_item_path(item),
+          method: :delete,
+          form: { data: { turbo_confirm: "このアイテムを削除しますか？" } } %>
     </div>
     <hr>
   <% end %>
