@@ -3,6 +3,7 @@ class PreparationItemsController < ApplicationController
 
   def index
     @preparation_items = current_user.preparation_items
+    @unprepared_items = current_user.preparation_items.unprepared
   end
 
   def update

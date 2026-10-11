@@ -23,3 +23,17 @@
 <% else %>
   <p>準備アイテムはまだありません。</p>
 <% end %>
+<hr>
+
+<h2>これから準備するもの</h2>
+
+<% if @unprepared_items.any? %>
+  <% @unprepared_items.each do |item| %>
+    <p>
+      <%= item.name %>
+      （<%= item.baby? ? "赤ちゃん" : "ママ" %>）
+    </p>
+  <% end %>
+<% else %>
+  <p>これから準備するものはありません！</p>
+<% end %>
