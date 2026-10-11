@@ -1,0 +1,14 @@
+<h1>出産準備リスト</h1>
+<p>赤ちゃんとママのための準備を進めましょう！</p>
+<% if @preparation_items.any? %>
+  <% @preparation_items.each do |item| %>
+    <div>
+      <h2><%= item.name %></h2>
+      <p> カテゴリ： <%= item.baby? ? "赤ちゃん" : "ママ" %> </p>
+      <p> 準備状況： <%= item.ready? ? "準備OK" : "これから" %> </p>
+    </div>
+    <hr>
+  <% end %>
+<% else %>
+<p>準備アイテムはまだありません。</p>
+<% end %>
