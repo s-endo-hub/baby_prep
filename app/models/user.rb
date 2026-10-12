@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-  :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable
 
   has_many :preparation_items, dependent: :destroy
 
@@ -9,10 +9,7 @@ class User < ApplicationRecord
 
   after_create :create_default_preparation_items
 
-  private
-
-  def create_default_preparation_items
-    default_items = [
+  DEFAULT_PREPARATION_ITEMS = [
     { name: "おむつ", category: :baby },
     { name: "おしりふき", category: :baby },
     { name: "ベビー服", category: :baby },
@@ -33,11 +30,18 @@ class User < ApplicationRecord
     { name: "スリッパ", category: :mother },
     { name: "タオル", category: :mother },
     { name: "飲み物用ストロー", category: :mother }
-    ]
+  ].freeze
 
-    default_items.each do |item|
-    preparation_items.create!(item)
+  def reset_preparation_items!
+    preparation_items.destroy_all
+    create_default_preparation_items
   end
-  
+
+  private
+
+  def create_default_preparation_items
+    DEFAULT_PREPARATION_ITEMS.each do |item|
+      preparation_items.create!(item)
+    end
   end
-  end
+end
