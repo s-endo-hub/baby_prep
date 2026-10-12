@@ -4,6 +4,18 @@ class PreparationItemsController < ApplicationController
   def index
     @preparation_items = current_user.preparation_items
     @unprepared_items = current_user.preparation_items.unprepared
+ 
+    @total_items = @preparation_items.count
+    @ready_items_count = @preparation_items.ready.count
+
+    @progress_rate =
+      if @total_items.zero?
+        0
+      else
+        (@ready_items_count.to_f / @total_items * 100).round
+      end
+
+    @days_until_due = (current_user.due_date - Date.current).to_i
   end
 
   def update
@@ -21,7 +33,7 @@ class PreparationItemsController < ApplicationController
       redirect_to root_path, alert: "準備状況を変更できませんでした。"
     end
   end
-  
+
   def create
     @preparation_item = current_user.preparation_items.new(preparation_item_params)
 
