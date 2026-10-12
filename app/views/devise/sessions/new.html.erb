@@ -23,4 +23,11 @@
   </div>
 <% end %>
 
+<hr>
+<h3>ゲストログイン</h3>
+<p>アカウント登録をせずに、アプリを試すことができます。</p>
+<%= button_to "ゲストとしてログイン",
+    guest_sign_in_path,
+    method: :post %>
+
 <%= render "devise/shared/links" %>

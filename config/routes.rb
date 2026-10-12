@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-
+  post "guest_sign_in", to: "guest_sessions#create"
   root "preparation_items#index"
   resources :preparation_items, only: [:create, :update, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

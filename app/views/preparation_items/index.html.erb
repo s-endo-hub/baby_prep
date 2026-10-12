@@ -1,3 +1,9 @@
+<div>
+  <p>こんにちは、<%= current_user.name %>さん！</p>
+  <%= button_to "ログアウト",
+      destroy_user_session_path,
+      method: :delete %>
+</div>
 <h1>出産準備リスト</h1>
 <p>赤ちゃんとママのための準備を進めましょう！</p>
 <hr>
