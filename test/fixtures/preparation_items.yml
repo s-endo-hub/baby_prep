@@ -1,13 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   user: one
-  name: MyString
-  category: MyString
-  status: MyString
+  name: テスト用のおむつ
+  category: baby
+  status: unprepared
 
 two:
   user: two
-  name: MyString
-  category: MyString
-  status: MyString
+  name: テスト用のベビー服
+  category: baby
+  status: unprepared
