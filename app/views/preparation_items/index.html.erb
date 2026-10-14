@@ -13,20 +13,40 @@
 <h1>出産準備リスト</h1>
 <p>赤ちゃんとママのための準備を進めましょう！</p>
 <hr>
-<h2>出産予定日まで</h2>
-<% if @days_until_due.positive? %>
-  <p>出産予定日まであと <%= @days_until_due %> 日です！</p>
-<% elsif @days_until_due.zero? %>
-  <p>今日は出産予定日です！</p>
-<% else %>
-  <p>出産予定日から <%= @days_until_due.abs %> 日経過しています。</p>
-<% end %>
-<h2>準備の進捗</h2>
-<p>
-  <%= @ready_items_count %> / <%= @total_items %> 件準備OK
-  （<%= @progress_rate %>%）
-</p>
-<progress value="<%= @progress_rate %>" max="100"></progress>
+<div class="dashboard">
+  <section class="dashboard-card due-date-card">
+    <h2>出産予定日まで</h2>
+
+    <% if @days_until_due.positive? %>
+      <p class="dashboard-number">
+        あと <%= @days_until_due %> 日
+      </p>
+      <p>赤ちゃんに会える日が近づいています。</p>
+    <% elsif @days_until_due.zero? %>
+      <p class="dashboard-number">今日が予定日です！</p>
+    <% else %>
+      <p class="dashboard-number">
+        <%= @days_until_due.abs %> 日経過
+      </p>
+      <p>出産予定日を過ぎています。</p>
+    <% end %>
+  </section>
+
+  <section class="dashboard-card progress-card">
+    <h2>準備の進捗</h2>
+
+    <p class="dashboard-number">
+      <%= @progress_rate %>%
+    </p>
+
+    <p>
+      <%= @ready_items_count %> /
+      <%= @total_items %> 件準備OK
+    </p>
+
+    <progress value="<%= @progress_rate %>" max="100"></progress>
+  </section>
+</div>
 <hr>
 <h2>準備アイテムを追加</h2>
 <%= form_with model: PreparationItem.new, url: preparation_items_path do |form| %>
@@ -41,29 +61,32 @@
   <%= form.submit "追加する" %>
 <% end %>
 <% if @preparation_items.any? %>
-  <% @preparation_items.each do |item| %>
-    <div>
-      <h2><%= item.name %></h2>
-      <p> カテゴリ： <%= item.baby? ? "赤ちゃん" : "ママ" %> </p>
-      <p> 準備状況： <%= item.ready? ? "準備OK" : "これから" %> </p>
-      <% if item.ready? %>
-        <%= button_to "これからに戻す",
-        preparation_item_path(item),
-        method: :patch,
-        params: { status: "unprepared" } %>
-      <% else %>
-        <%= button_to "準備OKにする",
-        preparation_item_path(item),
-        method: :patch,
-        params: { status: "ready" } %>
-      <% end %>
-      <%= button_to "削除する",
-          preparation_item_path(item),
-          method: :delete,
-          form: { data: { turbo_confirm: "このアイテムを削除しますか？" } } %>
-    </div>
-    <hr>
-  <% end %>
+  <div class="preparation-items">
+    <% @preparation_items.each do |item| %>
+      <div class="preparation-card">
+        <h2><%= item.name %></h2>
+        <p>カテゴリ：<%= item.baby? ? "赤ちゃん" : "ママ" %></p>
+        <p>準備状況：<%= item.ready? ? "準備OK" : "これから" %></p>
+
+        <% if item.ready? %>
+          <%= button_to "これからに戻す",
+              preparation_item_path(item),
+              method: :patch,
+              params: { status: "unprepared" } %>
+        <% else %>
+          <%= button_to "準備OKにする",
+              preparation_item_path(item),
+              method: :patch,
+              params: { status: "ready" } %>
+        <% end %>
+
+        <%= button_to "削除する",
+            preparation_item_path(item),
+            method: :delete,
+            form: { data: { turbo_confirm: "このアイテムを削除しますか？" } } %>
+      </div>
+    <% end %>
+  </div>
 <% else %>
   <p>準備アイテムはまだありません。</p>
 <% end %>
