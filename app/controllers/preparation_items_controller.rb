@@ -28,9 +28,15 @@ class PreparationItemsController < ApplicationController
     end
 
     if @preparation_item.update(status: status)
-      redirect_to root_path, notice: "準備状況を変更しました！"
+      redirect_to root_path(
+        anchor: "preparation-checklist",
+        category: @preparation_item.category
+      ), notice: "準備状況を変更しました！"
     else
-      redirect_to root_path, alert: "準備状況を変更できませんでした。"
+      redirect_to root_path(
+        anchor: "preparation-checklist",
+        category: @preparation_item.category
+      ), alert: "準備状況を変更できませんでした。"
     end
   end
 

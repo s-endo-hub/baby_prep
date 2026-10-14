@@ -64,9 +64,10 @@
 <% baby_items = @preparation_items.select(&:baby?) %>
 <% mother_items = @preparation_items.select(&:mother?) %>
 
-<div class="preparation-checklist">
+<div id="preparation-checklist" class="preparation-checklist">
   <%# 赤ちゃんの準備物：最初から開く %>
-  <details class="preparation-category" open>
+  <details class="preparation-category"
+    <%= "open" if params[:category] == "baby" || params[:category].blank? %>>
     <summary class="preparation-category-title">
       <span>👶 赤ちゃんの準備物</span>
       <span><%= baby_items.size %>件</span>
@@ -92,13 +93,15 @@
                     preparation_item_path(item),
                     method: :patch,
                     params: { status: "unprepared" },
-                    class: "button-secondary" %>
+                    class: "button-secondary",
+                    form: { data: { turbo: false } } %>
             <% else %>
                 <%= button_to "準備OKにする",
                     preparation_item_path(item),
                     method: :patch,
                     params: { status: "ready" },
-                    class: "button-primary" %>
+                    class: "button-primary",
+                    form: { data: { turbo: false } } %>
             <% end %>
 
             <%= button_to "削除する",
@@ -116,7 +119,8 @@
   </details>
 
   <%# ママの準備物：最初は閉じる %>
-  <details class="preparation-category">
+  <details class="preparation-category"
+    <%= "open" if params[:category] == "mother" %>>
     <summary class="preparation-category-title">
       <span>🤰 ママの準備物</span>
       <span><%= mother_items.size %>件</span>
@@ -142,13 +146,15 @@
                     preparation_item_path(item),
                     method: :patch,
                     params: { status: "unprepared" },
-                    class: "button-secondary" %>
+                    class: "button-secondary",
+                    form: { data: { turbo: false } } %>
             <% else %>
                 <%= button_to "準備OKにする",
                     preparation_item_path(item),
                     method: :patch,
                     params: { status: "ready" },
-                    class: "button-primary" %>
+                    class: "button-primary",
+                    form: { data: { turbo: false } } %>
             <% end %>
 
             <%= button_to "削除する",
@@ -166,14 +172,35 @@
   </details>
 </div>
 <hr>
-<h2>これから準備するもの</h2>
-<% if @unprepared_items.any? %>
-  <% @unprepared_items.each do |item| %>
-    <p>
-      <%= item.name %>
-      （<%= item.baby? ? "赤ちゃん" : "ママ" %>）
-    </p>
+<div class="unprepared-section">
+  <div class="unprepared-header">
+    <h2>これから準備するもの</h2>
+    <span class="unprepared-count">
+      未準備 <%= @unprepared_items.size %> 件
+    </span>
+  </div>
+
+  <% if @unprepared_items.any? %>
+    <div class="unprepared-list">
+      <% @unprepared_items.each do |item| %>
+        <div class="unprepared-card">
+          <div class="unprepared-item-info">
+            <h3><%= item.name %></h3>
+            <span class="unprepared-category">
+              <%= item.baby? ? "👶 赤ちゃん" : "🤰 ママ" %>
+            </span>
+          </div>
+          <span class="status-label status-unprepared">
+            これから
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="all-ready-message">
+      <p>🎉 すべての準備ができました！</p>
+      <p>出産に向けた準備、お疲れさまです。</p>
+    </div>
   <% end %>
-<% else %>
-  <p>これから準備するものはありません！</p>
-<% end %>
+</div>
+
