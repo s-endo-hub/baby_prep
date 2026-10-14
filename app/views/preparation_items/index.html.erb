@@ -60,36 +60,111 @@
   </div>
   <%= form.submit "追加する" %>
 <% end %>
-<% if @preparation_items.any? %>
-  <div class="preparation-items">
-    <% @preparation_items.each do |item| %>
-      <div class="preparation-card">
-        <h2><%= item.name %></h2>
-        <p>カテゴリ：<%= item.baby? ? "赤ちゃん" : "ママ" %></p>
-        <p>準備状況：<%= item.ready? ? "準備OK" : "これから" %></p>
+<hr>
+<% baby_items = @preparation_items.select(&:baby?) %>
+<% mother_items = @preparation_items.select(&:mother?) %>
 
-        <% if item.ready? %>
-          <%= button_to "これからに戻す",
-              preparation_item_path(item),
-              method: :patch,
-              params: { status: "unprepared" } %>
-        <% else %>
-          <%= button_to "準備OKにする",
-              preparation_item_path(item),
-              method: :patch,
-              params: { status: "ready" } %>
+<div class="preparation-checklist">
+  <%# 赤ちゃんの準備物：最初から開く %>
+  <details class="preparation-category" open>
+    <summary class="preparation-category-title">
+      <span>👶 赤ちゃんの準備物</span>
+      <span><%= baby_items.size %>件</span>
+    </summary>
+
+    <div class="preparation-items">
+      <% if baby_items.any? %>
+        <% baby_items.each do |item| %>
+            <div class="preparation-card">
+            <div class="preparation-card-header">
+                <h2><%= item.name %></h2>
+
+                <% if item.ready? %>
+                  <span class="status-label status-ready">準備OK</span>
+                <% else %>
+                  <span class="status-label status-unprepared">これから</span>
+                <% end %>
+            </div>
+
+            <div class="preparation-card-actions">
+            <% if item.ready? %>
+                <%= button_to "これからに戻す",
+                    preparation_item_path(item),
+                    method: :patch,
+                    params: { status: "unprepared" },
+                    class: "button-secondary" %>
+            <% else %>
+                <%= button_to "準備OKにする",
+                    preparation_item_path(item),
+                    method: :patch,
+                    params: { status: "ready" },
+                    class: "button-primary" %>
+            <% end %>
+
+            <%= button_to "削除する",
+                preparation_item_path(item),
+                method: :delete,
+                form: { data: { turbo_confirm: "このアイテムを削除しますか？" } },
+                class: "button-delete" %>
+            </div>
+          </div>
         <% end %>
+      <% else %>
+        <p>赤ちゃんの準備アイテムはまだありません。</p>
+      <% end %>
+    </div>
+  </details>
 
-        <%= button_to "削除する",
-            preparation_item_path(item),
-            method: :delete,
-            form: { data: { turbo_confirm: "このアイテムを削除しますか？" } } %>
-      </div>
-    <% end %>
-  </div>
-<% else %>
-  <p>準備アイテムはまだありません。</p>
-<% end %>
+  <%# ママの準備物：最初は閉じる %>
+  <details class="preparation-category">
+    <summary class="preparation-category-title">
+      <span>🤰 ママの準備物</span>
+      <span><%= mother_items.size %>件</span>
+    </summary>
+
+    <div class="preparation-items">
+      <% if mother_items.any? %>
+        <% mother_items.each do |item| %>
+            <div class="preparation-card">
+            <div class="preparation-card-header">
+                <h2><%= item.name %></h2>
+
+                <% if item.ready? %>
+                  <span class="status-label status-ready">準備OK</span>
+                <% else %>
+                  <span class="status-label status-unprepared">これから</span>
+                <% end %>
+            </div>
+
+            <div class="preparation-card-actions">
+            <% if item.ready? %>
+                <%= button_to "これからに戻す",
+                    preparation_item_path(item),
+                    method: :patch,
+                    params: { status: "unprepared" },
+                    class: "button-secondary" %>
+            <% else %>
+                <%= button_to "準備OKにする",
+                    preparation_item_path(item),
+                    method: :patch,
+                    params: { status: "ready" },
+                    class: "button-primary" %>
+            <% end %>
+
+            <%= button_to "削除する",
+                preparation_item_path(item),
+                method: :delete,
+                form: { data: { turbo_confirm: "このアイテムを削除しますか？" } },
+                class: "button-delete" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>ママの準備アイテムはまだありません。</p>
+      <% end %>
+    </div>
+  </details>
+</div>
 <hr>
 <h2>これから準備するもの</h2>
 <% if @unprepared_items.any? %>

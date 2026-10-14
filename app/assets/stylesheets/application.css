@@ -106,11 +106,11 @@ a:hover {
   }
 }
 
-/* 準備アイテム一覧 */
+/* 準備アイテム一覧：縦一列 */
 .preparation-items {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
   margin: 24px 0;
 }
 
@@ -186,5 +186,177 @@ a:hover {
 
   .dashboard-number {
     font-size: 25px;
+  }
+}
+
+
+/* 準備物のアコーディオン */
+.preparation-checklist {
+  margin: 24px 0;
+}
+
+/* カテゴリ全体 */
+.preparation-category {
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 1px solid #e5e2d9;
+  border-radius: 14px;
+  background-color: #fff;
+}
+
+/* カテゴリの見出し */
+.preparation-category-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  background-color: #f0f2eb;
+  color: #52634f;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* ブラウザ標準の三角マークを非表示 */
+.preparation-category-title::-webkit-details-marker {
+  display: none;
+}
+
+/* 開閉状態を示すマーク */
+.preparation-category-title::after {
+  content: "+";
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.preparation-category[open] .preparation-category-title::after {
+  content: "−";
+}
+
+/* 見出しにマウスを乗せたとき */
+.preparation-category-title:hover {
+  background-color: #e7ebdf;
+}
+
+/* カテゴリ内のアイテム一覧 */
+.preparation-category > .preparation-items {
+  margin: 0;
+  padding: 16px;
+}
+
+/* スマートフォン向け */
+@media (max-width: 600px) {
+  .preparation-category-title {
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  .preparation-category > .preparation-items {
+    padding: 12px;
+  }
+}
+/* 準備状況ラベル */
+.status-label {
+  display: inline-block;
+  margin: 8px 0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 準備OK：淡いグリーン */
+.status-ready {
+  background-color: #e5eddf;
+  color: #52634f;
+}
+
+/* これから：淡いベージュ */
+.status-unprepared {
+  background-color: #f5ead8;
+  color: #856b45;
+}
+
+
+/* 準備アイテムの操作ボタン */
+.preparation-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* ボタン内のフォーム余白をリセット */
+.preparation-card-actions form {
+  margin: 0;
+}
+
+/* ボタン共通 */
+.preparation-card-actions button {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+/* 準備OK・状態変更ボタン */
+.preparation-card-actions .button-primary {
+  background-color: #788b70;
+  color: #fff;
+}
+
+.preparation-card-actions .button-primary:hover {
+  background-color: #61765a;
+}
+
+/* これからに戻すボタン */
+.preparation-card-actions .button-secondary {
+  background-color: #e9eee5;
+  color: #52634f;
+}
+
+.preparation-card-actions .button-secondary:hover {
+  background-color: #dce5d5;
+}
+
+/* 削除ボタン */
+.preparation-card-actions .button-delete {
+  background-color: #f5f2ec;
+  color: #856b45;
+}
+
+.preparation-card-actions .button-delete:hover {
+  background-color: #eee5d7;
+}
+
+/* アイテム名と準備状況を横並びにする */
+.preparation-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* アイテム名 */
+.preparation-card-header h2 {
+  margin: 0;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+/* 準備状況ラベル */
+.preparation-card-header .status-label {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+/* スマートフォンでの表示 */
+@media (max-width: 600px) {
+  .preparation-card-header h2 {
+    font-size: 16px;
   }
 }
