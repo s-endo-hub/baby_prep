@@ -46,7 +46,8 @@ class PreparationItemsController < ApplicationController
     if @preparation_item.save
       redirect_to root_path, notice: "準備アイテムを追加しました！"
     else
-      redirect_to root_path, alert: "準備アイテムを追加できませんでした。"
+      error_messages = @preparation_item.errors.full_messages.join("、")
+      redirect_to root_path, alert: error_messages
     end
   end
 
