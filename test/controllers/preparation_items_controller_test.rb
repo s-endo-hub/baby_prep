@@ -37,4 +37,32 @@ class PreparationItemsControllerTest < ActionDispatch::IntegrationTest
     )
     assert_equal "ready", item.reload.status
   end
+
+  test "自分の準備アイテムを追加できる" do
+    sign_in users(:one)
+
+    assert_difference("PreparationItem.count", 1) do
+      post preparation_items_url, params: {
+        preparation_item: {
+          name: "ベビー用爪切り",
+          category: "baby"
+        }
+      }
+    end
+
+    assert_redirected_to root_path
+    assert_equal "ベビー用爪切り", users(:one).preparation_items.last.name
+  end
+  
+  test "自分の準備アイテムを削除できる" do
+    sign_in users(:one)
+
+    item = preparation_items(:one)
+
+    assert_difference("PreparationItem.count", -1) do
+      delete preparation_item_url(item)
+    end
+
+    assert_redirected_to root_path
+  end
 end
