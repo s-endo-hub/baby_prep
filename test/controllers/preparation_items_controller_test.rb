@@ -95,7 +95,7 @@ class PreparationItemsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_path
   end
-  
+
   test "不正な準備状況では更新できない" do
     sign_in users(:one)
 
@@ -105,5 +105,62 @@ class PreparationItemsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_path
     assert_equal "unprepared", item.reload.status
+  end
+
+  test "ダッシュボードに出産準備リストが表示される" do
+    sign_in users(:one)
+
+    get root_path
+
+    assert_response :success
+    assert_select "h1", "出産準備リスト"
+    assert_select "h2", "出産予定日まで"
+    assert_select "h2", "準備の進捗"
+    assert_select "h2", "これから準備するもの"
+  end
+  
+  test "ダッシュボードに準備の進捗率が表示される" do
+    user = users(:one)
+    sign_in user
+
+    user.preparation_items.update_all(status: "not_ready")
+    user.preparation_items.first.update!(status: "ready")
+    user.preparation_items.create!(
+      name: "テスト用の肌着",
+      category: "baby",
+      status: "not_ready"
+    )
+
+    get root_path
+
+    assert_response :success
+    assert_select ".progress-card .dashboard-number", "50%"
+    assert_select ".progress-card p", "1 / 2 件準備OK"
+  end
+
+  test "これから準備するアイテムがダッシュボードに表示される" do
+    user = users(:one)
+    sign_in user
+
+    user.preparation_items.update_all(status: "not_ready")
+
+    get root_path
+
+    assert_response :success
+    assert_select ".unprepared-section", /これから準備するもの/
+    assert_select ".unprepared-section", /テスト用のおむつ/
+    assert_select ".unprepared-count", "未準備 1 件"
+  end
+
+  test "ダッシュボードに出産予定日までの日数が表示される" do
+    user = users(:one)
+    sign_in user
+
+    user.update!(due_date: Date.current + 30.days)
+
+    get root_path
+
+    assert_response :success
+    assert_select ".due-date-card .dashboard-number", "あと 30 日"
   end
 end
