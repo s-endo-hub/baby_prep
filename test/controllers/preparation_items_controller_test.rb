@@ -53,7 +53,7 @@ class PreparationItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     assert_equal "ベビー用爪切り", users(:one).preparation_items.last.name
   end
-  
+
   test "自分の準備アイテムを削除できる" do
     sign_in users(:one)
 
@@ -64,5 +64,46 @@ class PreparationItemsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_path
+  end
+
+  test "アイテム名が空だと追加できない" do
+    sign_in users(:one)
+
+    assert_no_difference("PreparationItem.count") do
+      post preparation_items_url, params: {
+        preparation_item: {
+          name: "",
+          category: "baby"
+        }
+      }
+    end
+
+    assert_redirected_to root_path
+  end
+
+  test "アイテム名が50文字を超えると追加できない" do
+    sign_in users(:one)
+
+    assert_no_difference("PreparationItem.count") do
+      post preparation_items_url, params: {
+        preparation_item: {
+          name: "あ" * 51,
+          category: "baby"
+        }
+      }
+    end
+
+    assert_redirected_to root_path
+  end
+  
+  test "不正な準備状況では更新できない" do
+    sign_in users(:one)
+
+    item = preparation_items(:one)
+
+    patch preparation_item_url(item), params: { status: "invalid" }
+
+    assert_redirected_to root_path
+    assert_equal "unprepared", item.reload.status
   end
 end
