@@ -40,7 +40,8 @@
 * HTML / CSS
 
 ## ER図
-mermaid
+
+```mermaid
 erDiagram
     users ||--o{ preparation_items : "has_many"
 
@@ -48,10 +49,7 @@ erDiagram
         bigint id PK
         string name
         string email UK
-        string encrypted_password
         date due_date
-        datetime created_at
-        datetime updated_at
     }
 
     preparation_items {
@@ -60,9 +58,8 @@ erDiagram
         string name
         string category
         string status
-        datetime created_at
-        datetime updated_at
     }
+```
 
 ## 画面イメージ
 
