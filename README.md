@@ -40,12 +40,33 @@
 * HTML / CSS
 
 ## ER図
+mermaid
+erDiagram
+    users ||--o{ preparation_items : "has_many"
 
-ここにER図を掲載
+    users {
+        bigint id PK
+        string name
+        string email UK
+        string encrypted_password
+        date due_date
+        datetime created_at
+        datetime updated_at
+    }
+
+    preparation_items {
+        bigint id PK
+        bigint user_id FK
+        string name
+        string category
+        string status
+        datetime created_at
+        datetime updated_at
+    }
 
 ## 画面イメージ
 
-ここにアプリの画面イメージを掲載
+![出産準備リストのメイン画面](docs/images/dashboard.jpg)
 
 ## 今後の改善予定
 
