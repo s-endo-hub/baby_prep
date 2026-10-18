@@ -360,3 +360,91 @@ a:hover {
     font-size: 16px;
   }
 }
+
+/* これから準備するもの */
+.unprepared-section {
+  margin: 32px 0;
+}
+
+.unprepared-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.unprepared-header h2 {
+  margin: 0;
+}
+
+.unprepared-count {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: #f5ead8;
+  color: #856b45;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.unprepared-list {
+  display: grid;
+  gap: 10px;
+}
+
+.unprepared-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid #e5e2d9;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.unprepared-item-info {
+  min-width: 0;
+}
+
+.unprepared-item-info h3 {
+  margin: 0 0 6px;
+  color: #454941;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.unprepared-category {
+  color: #637d5b;
+  font-size: 13px;
+}
+
+.unprepared-card .status-label {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.all-ready-message {
+  padding: 24px;
+  border: 1px solid #dce5d5;
+  border-radius: 12px;
+  background-color: #f0f2eb;
+  text-align: center;
+}
+
+.all-ready-message p:first-child {
+  color: #52634f;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .unprepared-card {
+    padding: 14px;
+  }
+
+  .unprepared-item-info h3 {
+    font-size: 15px;
+  }
+}
