@@ -1,0 +1,12 @@
+one:
+  name: ユーザーA
+  due_date: 2027-01-01
+  email: user_a@example.com
+  encrypted_password: $2a$12$WtN3mddYn9ZBqDfenx0MReYcWXiGBZq88I6bDgNNMALBjMyAk9WRm
+
+two:
+  name: ユーザーB
+  due_date: 2027-02-01
+  email: user_b@example.com
+  encrypted_password: $2a$12$WtN3mddYn9ZBqDfenx0MReYcWXiGBZq88I6bDgNNMALBjMyAk9WRm
+  

@@ -1,0 +1,11 @@
+one:
+  user: one
+  name: テスト用のおむつ
+  category: baby
+  status: unprepared
+
+two:
+  user: two
+  name: テスト用のベビー服
+  category: baby
+  status: unprepared

@@ -1,0 +1,20 @@
+ja:
+  activerecord:
+    attributes:
+      preparation_item:
+        name: "アイテム名"
+        category: "カテゴリ"
+      user:
+        name: "名前"
+        email: "メールアドレス"
+        password: "パスワード"
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
+      too_long: "は%{count}文字以内で入力してください"
+      taken: "はすでに使用されています"
+      invalid: "が正しくありません"
+      inclusion: "は一覧にありません"
+      confirmation: "と確認用の入力が一致しません"
+      
